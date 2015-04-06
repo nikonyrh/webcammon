@@ -1,0 +1,134 @@
+<html>
+<head>
+	<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="//code.highcharts.com/highcharts.js"></script>
+	
+	<style>
+	td.top {
+		background-color:	#444444;
+		color: 				white;
+		text-align:			center;
+		font-size:          50%;
+	}
+	
+	div.result {
+		margin-top: 20px;
+	}
+	</style>
+</head>
+<body>
+<h1 style="margin: 20px">
+	JPEG file sizes at different times of days (x 10 kB)
+</h1>
+<div id="result_1" class="result"></div>
+<div style="margin-top: 10px">
+	<img id="image"/>
+</div>
+<script>
+buttonStatus = {};
+
+window.onmousemove = function (e) {
+  if (!e) e = window.event;
+  buttonStatus.shiftKey = e.shiftKey;
+  buttonStatus.altKey   = e.altKey;
+  buttonStatus.ctrlKey  = e.ctrlKey;
+  buttonStatus.metaKey  = e.metaKey;
+}
+
+generate = function (target) {
+	$.get('/api/fileSizes.json', function(response) {
+		var table      = $('<table width="100%" border=0 cellspacing=0 cellpadding=4></table>');
+		var isFirstRow = true;
+		var range      = [30, 400]; // file size range in kilobytes
+		
+		var bgcolor = function (value) {
+			var toHex = function (h) {
+				h = Math.round(255 * h) & 0xF0;
+				if (h < 0) {
+					h = 0;
+				}
+				if (h > 255) {
+					h = 255;
+				}
+				
+				h = h.toString(16);
+				return h.length == 1 ? "0" + h : h; 
+			};
+			
+			var s = (value - range[0]) / (range[1] - range[0]);
+			
+			if (s < 0) {
+				s = 0;
+			}
+			else if (s > 1) {
+				s = 1;
+			}
+			
+			var r = 0.1 + 0.9*s;
+			var g = Math.pow(s, 0.8);
+			var b = 1.0 - 0.75*s;
+			
+			return '#' + toHex(r) + toHex(g) + toHex(b);
+		};
+		
+		$.each(response.response, function (rowKey, rowValues) {
+			if (isFirstRow) {
+				isFirstRow = false;
+				var row = $('<tr></tr>');
+				row.append($('<td class=top>&nbsp;</td>'));
+				
+				$.each(response.metadata.times, function (key, value) {
+					row.append($('<td class=top>' + value + '</td>'));
+				});
+				
+				table.append(row);
+			}
+			
+			var row = $('<tr></tr>');
+			row.append($('<td class=top style="padding-top: 10px; padding-bottom: 10px">' +
+				rowKey + '</td>'));
+			
+			$.each(response.metadata.times, function (key, time) {
+				if (time in rowValues) {
+					value  = rowValues[time];
+					var td = $("<td align=center bgcolor='" + bgcolor(value) + "'>" +
+						(value / 10).toFixed(0) + '</td>');
+					
+					if (rowKey in response.metadata.files &&
+						time in response.metadata.files[rowKey]) {
+						td.mouseover(function() {
+							if ('ctrlKey' in buttonStatus && buttonStatus.ctrlKey) {
+								$('#image').attr('src', '/images/' +
+									response.metadata.files[rowKey][time]);
+							}
+						});
+					}
+					else {
+						//console.log('Skipping ' + rowKey + '/' + time);
+					}
+					
+					row.append(td);
+				}
+				else {
+					row.append($('<td>&nbsp;</td>'));
+				}
+			});
+			table.append(row);
+		});
+		
+		$('#' + target).empty();
+		$('#' + target).append(table);
+	});
+};
+
+$(document).ready(function() {
+	$('#refresh').click(function(e) {
+		e.preventDefault();
+		generate('result_1');
+	});
+	generate('result_1');
+});
+</script>
+<p>[<a href="#" id="refresh">Refresh</a>]</p>
+</body>
+</html>
