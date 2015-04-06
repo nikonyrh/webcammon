@@ -1,7 +1,5 @@
 <?php
 require 'FileSelector.php';
-
-//die('<pre>' . print_r($_SERVER, true));
 $base = '/storage/webcam_pics/images';
 
 $timespanMapping = array(

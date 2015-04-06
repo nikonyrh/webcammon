@@ -20,14 +20,14 @@ URL examples
 - **/images/2015-04-06-05-45-01**
 The image at time, Nginx rewrites it as /images/2015-04-06/05-45-01.jpg
 
-- **/image_gen?recent**
+- **/imageGen?recent**
 The most recently captured image
 
-- **/image_gen/07.jpg?w=1280&grid=5**
+- **/imageGen/07.jpg?w=1280&grid=5**
 Tiled last 25 (5 x 5) images at 7am, rendered to a 1280 x 720 size.
 ![7am](samples/7am.jpg)
 
-- **/image_gen/1d.jpg?w=1280&grid=8&skip=30w**
+- **/imageGen/1d.jpg?w=1280&grid=8&skip=30w**
 Tiled 64 (8 x 8) images throughout one day 30 weeks ago, 22.5 minutes / image.
 ![1d](samples/1d.jpg)
 
