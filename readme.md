@@ -12,27 +12,27 @@ This project is not and will not be public on the internet due to privacy concer
 Usage
 --------
 At simplest just clone the repo, change a few paths and put bin/grabFrame.sh into crontab.
-PHP API should be easy to get up and running as well. 1280x720 JPGs are 3-4 kb at night and up-to
-40 kb during the day, depending on the season it is 300 - 350 Mb / day if you capture once every minute.
+PHP API should be easy to get up and running as well. 1280x720 JPGs are 30-40 kb at night and up-to
+400 kb during the day, depending on the season it is 300 - 350 Mb / day if you capture once every minute.
 
 URL examples
 --------
-/images/2015-04-06-05-45-01
+- **/images/2015-04-06-05-45-01**
 The image at time, Nginx rewrites it as /images/2015-04-06/05-45-01.jpg
 
-/image_gen?recent
+- **/image_gen?recent**
 The most recently captured image
 
-/image_gen/07.jpg?w=1280&grid=5
+- **/image_gen/07.jpg?w=1280&grid=5**
 Tiled last 25 (5 x 5) images at 7am, rendered to a 1280 x 720 size.
 ![7am](samples/7am.jpg)
 
-/image_gen/1d.jpg?w=1280&grid=8&skip=30w
+- **/image_gen/1d.jpg?w=1280&grid=8&skip=30w**
 Tiled 64 (8 x 8) images throughout one day 30 weeks ago, 22.5 minutes / image.
 ![1d](samples/1d.jpg)
 
-/filesizes.html
-Calls the filesize API and renders the outcome as a HTML table.
+- **/filesizes.html**
+Calls the filesize API and shows the response as a HTML table.
 ![filesizes](samples/filesizes.png)
 
 Supported time syntaxes (case-insensitive)
@@ -48,7 +48,9 @@ So currently accepted strings are "[0-9]+[ihdwm]", no decimal part is allowed.
 API examples
 --------
 Median file sizes at each hour, first three columns are the year, month and day. This is trivial to load in for example Matlab.
-/api/fileSizes.txt?dt=1
+
+**/api/fileSizes.txt?dt=1**
+
 ```
   -1 -1 -1   0.00   1.00   2.00   3.00   4.00   5.00   6.00   7.00   8.00   9.00  10.00  11.00  12.00  13.00  14.00  15.00  16.00  17.00  18.00  19.00  20.00  21.00  22.00  23.00
 2015 03 26  52.20  32.20  31.50  31.20  42.20  53.90 176.80 380.60 402.70 389.10 374.80 332.90 317.80 330.40 324.80 321.70 321.70 327.40 329.30 349.80  97.40  53.20  36.90  32.40
@@ -66,8 +68,10 @@ Median file sizes at each hour, first three columns are the year, month and day.
 Same as above but in a JSON format for an AJAX call, this also lists filenames so that image URLs can be easily generated on the UI.
 Note that these are in server's timezone but filenames are in UTC.
 
-/api/fileSizes.json?dt=1
-```{
+**/api/fileSizes.json?dt=1**
+
+```json
+{
     "metadata": {
         "times": [
             "00.00h",
