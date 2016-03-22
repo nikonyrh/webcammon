@@ -13,6 +13,7 @@
 	
 	div.result {
 		margin-top: 20px;
+        margin-bottom: 800px;
 	}
 	</style>
 </head>
@@ -21,7 +22,7 @@
 	JPEG file sizes at different times of days (x 10 kB)
 </h1>
 <div id="result_1" class="result"></div>
-<div style="margin-top: 10px">
+<div style="position: fixed; right: 4px; bottom: 4px">
 	<img id="image"/>
 </div>
 <script>
@@ -71,17 +72,21 @@ generate = function (target) {
 			return '#' + toHex(r) + toHex(g) + toHex(b);
 		};
 		
+        var generateRow = function () {
+            var row = $('<tr></tr>');
+            row.append($('<td class=top>&nbsp;</td>'));
+            
+            $.each(response.metadata.times, function (key, value) {
+                row.append($('<td class=top>' + value + '</td>'));
+            });
+            
+            table.append(row);
+        };
+        
 		$.each(response.response, function (rowKey, rowValues) {
 			if (isFirstRow) {
 				isFirstRow = false;
-				var row = $('<tr></tr>');
-				row.append($('<td class=top>&nbsp;</td>'));
-				
-				$.each(response.metadata.times, function (key, value) {
-					row.append($('<td class=top>' + value + '</td>'));
-				});
-				
-				table.append(row);
+				generateRow();
 			}
 			
 			var row = $('<tr></tr>');
@@ -98,6 +103,7 @@ generate = function (target) {
 						time in response.metadata.files[rowKey]) {
 						td.mouseover(function() {
 							if ('ctrlKey' in buttonStatus && buttonStatus.ctrlKey) {
+								$('#image').show();
 								$('#image').attr('src', '/images/' +
 									response.metadata.files[rowKey][time]);
 							}
@@ -115,6 +121,8 @@ generate = function (target) {
 			});
 			table.append(row);
 		});
+        
+        generateRow();
 		
 		$('#' + target).empty();
 		$('#' + target).append(table);
@@ -127,6 +135,12 @@ $(document).ready(function() {
 		generate('result_1');
 	});
 	generate('result_1');
+	
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			$('#image').hide();
+		}
+	});
 });
 </script>
 <p>[<a href="#" id="refresh">Refresh</a>]</p>

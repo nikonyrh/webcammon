@@ -1,7 +1,9 @@
 #!/bin/bash
+cd "$(dirname "$(realpath "$0")")";
+
 # Put this file to crontab, mine is running every minute and creates
-# about 350 Mb of files / day. File sizes vary from 30 kb at night to
-# 400 kb at clowdy day. Sunny or snowy images are 250 - 300 kb.
+# about 350 MB of files / day. File sizes vary from 30 kB at night to
+# 400 kB at cloudy day. Sunny or snowy images are 250 - 300 kB.
 
 # To see a list of controls:
 # v4l2-ctl --list-ctrls

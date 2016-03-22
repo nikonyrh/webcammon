@@ -1,19 +1,20 @@
 WebcamMon
 =================
 This project consists of the following parts
-- Automated image capturing from a webcam (bash, [v4l2-ctl](http://www.ivtvdriver.org/index.php/V4l2-ctl))
+- Automated image capturing from a webcam (bash, [v4l2-ctl](http://www.ivtvdriver.org/index.php/V4l2-ctl), [fswebcam](http://manpages.ubuntu.com/manpages/lucid/man1/fswebcam.1.html))
 - Parallel video generation (bash, [mencoder](http://www.mplayerhq.hu/design7/news.html))
 - An API to query filesize statistics, just the size is surprisingly informative (PHP)
 - An API to generate images from different time-based criteria (PHP, [montage](http://www.imagemagick.org/script/montage.php))
 - An UI to visualize filesize statistics (HTML)
 
 This project is not and will not be public on the internet due to privacy concerns.
+However please have a look at the [blog post](https://nikonyrh.github.io/webcammon.html) as well.
 
 Usage
 --------
 At simplest just clone the repo, change a few paths and put bin/grabFrame.sh into crontab.
-PHP API should be easy to get up and running as well. 1280x720 JPGs are 30-40 kb at night and up-to
-400 kb during the day, depending on the season it is 300 - 350 Mb / day if you capture once every minute.
+PHP API should be easy to get up and running as well. 1280x720 JPGs are 30-40 kB at night and up-to
+400 kB during the day, depending on the season it is 300 - 350 MB / day if you capture once every minute.
 
 URL examples
 --------
@@ -211,12 +212,12 @@ Note that these are in server's timezone but filenames are in UTC.
 }
 ```
 
-TODO
+TODO (possibly in a priority order)
 --------
  - Clean up code
  - GIF generation
  - Tests
- - Configurable paths
+ - Configurable paths (image storage, generated image and video caching)
  - Windows support? (pull requests are welcome)
 
 
