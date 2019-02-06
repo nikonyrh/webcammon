@@ -3,16 +3,16 @@
 CODEC=mpeg4
 #CODEC=mpeg2video
 
+FPS=30
+
 # In my machine /storage is two HDDs in RAID-1 and /rapid is two SSDs in RAID-0
 
 cd /storage/webcam_pics
 
 if [ -z "$1" ]; then
-	# Find all images
-	im=`find images -type f -name '*.jpg' | sort`
-
-	# Find images at 10 o'clock, UTC time, should make an command-line option.
-	#im=`find images -type f -name '*10-00-*.jpg' | sort`
+	#im=`find images -type f -name '*.jpg' | sort`
+	#im=`find images -type f -name '*14-00-*.jpg' | sort`
+    im=`find images/2016-01-26 -type f -name '*.jpg' | sort`
 
 	# Split to 'P' equal chunks for parallel processing
 	N=`echo "$im" | wc -l`
@@ -40,6 +40,7 @@ if [ -z "$1" ]; then
 	rm -f /rapid/webcam_cache/output.avi.tmp.*
 else
 	# Read filenames from a file $1 and create a video segment
-	mencoder "mf://@$1" -mf fps=5 -ovc lavc -lavcopts \
+	mencoder "mf://@$1" -mf "fps=$FPS" -ovc lavc -lavcopts \
 		"vcodec=$CODEC:vbitrate=10000:keyint=15" -o "/rapid/webcam_cache/output.avi.$1" > /dev/null
 fi
+

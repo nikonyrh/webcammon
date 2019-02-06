@@ -1,0 +1,5 @@
+#!/bin/bash
+# time echo * | xargs -n1 echo | sed -r s/-[0-9]+$// | sort | uniq | xargs -n1 ../makeZip.sh
+time zip -q /media/toshiba_bak/nas_backup/storage_webcam_pics/images/$1.zip -r -4 $1-*
+echo "$1 done"
+

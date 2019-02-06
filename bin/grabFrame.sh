@@ -32,7 +32,9 @@ fi
 # also I skip first 30 frames to let the camera do its adjustments and calibration.
 fswebcam --rotate 180 --no-banner -r 1280x720 --jpeg 95 -S 30 "$F"
 
+sleep 2
+
 # If the file did not appear, send a message!
 if [ ! -f "$F" ]; then
-    ./slackNotify.sh 'Failed to capture a webcam image!'
+    ./slackNotify.sh "Failed to capture a webcam image $F!"
 fi

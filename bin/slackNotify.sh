@@ -7,11 +7,14 @@ if [ ! -f webhook.txt ]; then
 fi
 
 # We have a separate throttle for each distinct message content
-FILE=`echo "$1" | sha1sum | cut -d' ' -f1`
+#FILE=`echo "$1" | sha1sum | cut -d' ' -f1`
+
+# Or just one / webhook
+FILE=`sha1sum webhook.txt | cut -d' ' -f1`
 FILE="throttle_slack_$FILE.tmp"
 
 # Each unique message is delivered only once within this interval (in minutes)
-TIME_LIMIT_MIN=120
+TIME_LIMIT_MIN=15
 N_FILES=`find "$FILE" -mmin "-$TIME_LIMIT_MIN" 2>/dev/null | wc -l`
 
 if [ "$2" == "-force" ] || [ "$2" == "-f" ] || (($N_FILES == 0)); then
