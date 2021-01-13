@@ -84,6 +84,9 @@ generate = function (target) {
         };
         
 		$.each(response.response, function (rowKey, rowValues) {
+			if (rowKey < "2017/01/01")
+				return;
+
 			if (isFirstRow) {
 				isFirstRow = false;
 				generateRow();
